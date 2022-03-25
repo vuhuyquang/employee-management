@@ -23,7 +23,7 @@ return [
 	[
 		'label' => 'Nhân viên',
 		'route' => 'employee',
-		'icon' => 'fa-lightbulb',
+		'icon' => 'fa-user-alt',
 		'items' => [
 			[
 				'label' => 'Thêm mới',

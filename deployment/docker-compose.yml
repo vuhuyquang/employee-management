@@ -1,0 +1,56 @@
+version: '3'
+services:
+  laravel_web:
+    container_name: laravel_web
+    build: .
+    ports:
+      - "49081:8011"
+    volumes:
+      - ../:/var/www/html/laravel-sample/
+      - ./httpd/:/etc/httpd/sites-enabled/
+    restart: always
+    depends_on:
+      - laravel_db
+    tty: true
+    privileged: true
+    networks:
+      - external
+      - internal
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+
+  laravel_db:
+    container_name: laravel_db
+    image: mysql:8.0.20
+    ports:
+      - 49306:3306
+    volumes:
+      - ./sql:/usr/share/db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - external
+      - internal
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+
+  laravel_adminer:
+    container_name: laravel_adminer
+    image: clue/adminer
+    restart: always
+    ports:
+      - 49310:80
+    networks:
+      - external
+      - internal
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+networks:
+  external:
+    driver: bridge
+  internal:
+    driver: bridge

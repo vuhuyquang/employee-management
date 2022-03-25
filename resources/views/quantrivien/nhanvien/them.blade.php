@@ -30,6 +30,20 @@
             @enderror
         </div>
         <div class="form-group">
+            <label>Email</label>
+            <input type="text" class="form-control" name="email" placeholder="Nhập email" autocomplete="off" required>
+            @error('email')
+                <small class="help-block">{{ $message }}</small>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label>Mật khẩu</label>
+            <input type="text" class="form-control" name="password" placeholder="Nhập mật khẩu" autocomplete="off" required>
+            @error('password')
+                <small class="help-block">{{ $message }}</small>
+            @enderror
+        </div>
+        <div class="form-group">
             <label>Ngày sinh</label>
             <input type="date" class="form-control" name="ngay_sinh" placeholder="Nhập ngày sinh" autocomplete="off">
             @error('ngay_sinh')
@@ -67,18 +81,6 @@
             <label>Số điện thoại</label>
             <input type="text" class="form-control" name="so_dien_thoai" placeholder="Nhập số điện thoại" autocomplete="off">
             @error('so_dien_thoai')
-                <small class="help-block">{{ $message }}</small>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label>Quyền</label>
-            <select class="form-control" name="quyen">
-                <option value="" selected disabled>--- Chọn quyền ---</option>
-                <option value="employee">Nhân viên</option>
-                <option value="manager">Trưởng phòng</option>
-                <option value="admin">Quản trị viên</option>
-            </select>
-            @error('quyen')
                 <small class="help-block">{{ $message }}</small>
             @enderror
         </div>

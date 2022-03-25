@@ -24,7 +24,7 @@
                 <small class="help-block">{{ $message }}</small>
             @enderror
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
 			<label>Trưởng phòng</label>
 			<select class="form-control" name="truong_phong_id">
                 <option value="" selected disabled>--- Chọn trưởng phòng ---</option>
@@ -35,7 +35,7 @@
 			@error('vitri')
 			<small class="help-block">{{$message}}</small>
 			@enderror
-		</div>
+		</div> --}}
         <button type="submit" class="btn btn-primary">Lưu</button>
     </form>
 @stop()

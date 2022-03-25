@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'users',
+        'passwords' => 'employees',
     ],
 
     /*
@@ -38,7 +38,7 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'employees',
         ],
 
         'api' => [
@@ -46,6 +46,11 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        // 'nhanviens' => [
+        //     'driver' => 'session',
+        //     'provider' => 'nhanviens',
+        // ],
     ],
 
     /*
@@ -71,10 +76,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'employees' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\NhanVien::class,
+        ],
     ],
 
     /*
@@ -98,6 +103,13 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
+        ],
+
+        'employees' => [
+            'provider' => 'employees',
+            'table' => 'nhanviens_password_resets',
+            'expire' => 60,
+            'throttle' => 15,
         ],
     ],
 

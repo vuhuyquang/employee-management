@@ -30,6 +30,20 @@
             @enderror
         </div>
         <div class="form-group">
+            <label>Email</label>
+            <input type="text" class="form-control" name="email" value="{{ $nhanvien->email }}" placeholder="Nhập email" autocomplete="off" required>
+            @error('email')
+                <small class="help-block">{{ $message }}</small>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label>Mật khẩu</label>
+            <input type="password" class="form-control" name="password" placeholder="Nhập mật khẩu" autocomplete="off" required>
+            @error('password')
+                <small class="help-block">{{ $message }}</small>
+            @enderror
+        </div>
+        <div class="form-group">
             <label>Ngày sinh</label>
             <input type="date" class="form-control" name="ngay_sinh" value="{{$nhanvien->ngay_sinh}}" placeholder="Nhập ngày sinh" autocomplete="off">
             @error('ngay_sinh')
@@ -70,7 +84,7 @@
                 <small class="help-block">{{ $message }}</small>
             @enderror
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label>Quyền</label>
             <select class="form-control" name="quyen">
                 <option value="" selected disabled>--- Chọn quyền ---</option>
@@ -81,7 +95,7 @@
             @error('quyen')
                 <small class="help-block">{{ $message }}</small>
             @enderror
-        </div>
+        </div> --}}
         <button type="submit" class="btn btn-primary">Lưu</button>
     </form>
 @stop()

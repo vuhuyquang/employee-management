@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\PhongBan;
 use App\Models\NhanVien;
 use Illuminate\Http\Request;
+use App\Exports\PhongBanExport;
+use App\Exports\PhongBanImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PhongBanController extends Controller
 {
@@ -15,7 +18,7 @@ class PhongBanController extends Controller
      */
     public function index()
     {
-        $phongbans = PhongBan::orderBy('id', 'DESC')->search()->get();
+        $phongbans = PhongBan::orderBy('id', 'DESC')->search()->paginate(15);
         return view('quantrivien.phongban.danhsach', compact('phongbans'));
     }
 
@@ -26,7 +29,7 @@ class PhongBanController extends Controller
      */
     public function create()
     {
-        $nhanviens = NhanVien::all();
+        $nhanviens = NhanVien::where('quyen', 'employee');
         return view('quantrivien.phongban.them', compact('nhanviens'));
     }
 
@@ -56,22 +59,26 @@ class PhongBanController extends Controller
             'truong_phong_id.unique' => 'Dữ liệu nhập vào không được trùng lặp'
         ]);
 
-        if ($request->truong_phong_id !== null) {
-            $nhanvien = NhanVien::findOrFail($request->truong_phong_id);
-            $nhanvien->quyen = 'manager';
-            $nhanvien->save();
-        }
-
         $phongban = new PhongBan;
         $phongban->ma_phong_ban = $request->ma_phong_ban;
         $phongban->ten = $request->ten;
         $phongban->mo_ta = $request->mo_ta;
         $phongban->truong_phong_id = $request->truong_phong_id;
         if ($phongban->save()) {
+            if ($request->truong_phong_id !== null) {
+                $this->setleader($request->truong_phong_id);
+            }
             return redirect()->back()->with('success', 'Thêm mới thành công');
         } else {
             return redirect()->back()->with('error', 'Thêm mới thất bại');
         }
+    }
+
+    public function setleader($id)
+    {
+        $nhanvien = NhanVien::findOrFail($id);
+        $nhanvien->quyen = 'manager';
+        $nhanvien->save();
     }
 
     /**
@@ -93,7 +100,7 @@ class PhongBanController extends Controller
      */
     public function edit($id)
     {
-        $nhanviens = NhanVien::all();
+        $nhanviens = NhanVien::where('phong_ban_id', $id)->orWhere('quyen', '=', 'admin')->get();
         $phongban = PhongBan::findOrFail($id);
         return view('quantrivien.phongban.sua', compact('phongban', 'nhanviens'));
     }
@@ -108,10 +115,10 @@ class PhongBanController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'ma_phong_ban' => 'required|min:3|max:15|unique:phongbans,ma_phong_ban,'.$id,
-            'ten' => 'required|min:3|max:50|unique:phongbans,ten,'.$id,
+            'ma_phong_ban' => 'required|min:3|max:15|unique:phongbans,ma_phong_ban,' . $id,
+            'ten' => 'required|min:3|max:50|unique:phongbans,ten,' . $id,
             'mo_ta' => 'max:254',
-            'truong_phong_id' => 'unique:phongbans,truong_phong_id,'.$id
+            'truong_phong_id' => 'unique:phongbans,truong_phong_id,' . $id
         ], [
             'ma_phong_ban.required' => 'Trường dữ liệu không được để trống',
             'ma_phong_ban.min' => 'Dữ liệu nhập vào phải có tối thiểu 3 ký tự',
@@ -125,18 +132,15 @@ class PhongBanController extends Controller
             'truong_phong_id.unique' => 'Dữ liệu nhập vào không được trùng lặp'
         ]);
 
-        if ($request->truong_phong_id !== null) {
-            $nhanvien = NhanVien::findOrFail($request->truong_phong_id);
-            $nhanvien->quyen = 'manager';
-            $nhanvien->save();
-        }
-
         $phongban = PhongBan::findOrFail($id);
         $phongban->ma_phong_ban = $request->ma_phong_ban;
         $phongban->ten = $request->ten;
         $phongban->mo_ta = $request->mo_ta;
         $phongban->truong_phong_id = $request->truong_phong_id;
         if ($phongban->save()) {
+            if ($request->truong_phong_id !== null) {
+                $this->setleader($request->truong_phong_id);
+            }
             return redirect()->back()->with('success', 'Cập nhật thành công');
         } else {
             return redirect()->back()->with('error', 'Cập nhật thất bại');
@@ -158,5 +162,17 @@ class PhongBanController extends Controller
         } else {
             return redirect()->back()->with('error', 'Xóa thất bại');
         }
+    }
+
+    public function export()
+    {
+        return Excel::download(new PhongBanExport, 'DepartmentList.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $path = $request->file('file')->getRealPath();
+        Excel::import(new PhongBanImport, $path);
+        return back();
     }
 }

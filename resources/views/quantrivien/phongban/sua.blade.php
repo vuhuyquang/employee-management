@@ -29,7 +29,7 @@
 			<select class="form-control" name="truong_phong_id">
                 <option value="" selected disabled>--- Chọn trưởng phòng ---</option>
                 @foreach ($nhanviens as $nhanvien)
-                <option {{$nhanvien->phong_ban_id == $phongban->id ? 'selected' : ''}} value="{{$nhanvien->id}}">{{$nhanvien->ho_ten}}</option>
+                <option {{$nhanvien->id == $phongban->truong_phong_id ? 'selected' : ''}} value="{{$nhanvien->id}}">{{$nhanvien->ho_ten}}</option>
                 @endforeach
 			</select>
 			@error('vitri')

@@ -9,7 +9,7 @@ class PhongBan extends Model
 {
     use HasFactory;
     protected $table = 'phongbans';
-    protected $fillable = ['ma_phong_ban', 'ten', 'mo_ta'];
+    protected $fillable = ['ma_phong_ban', 'ten', 'mo_ta', 'truong_phong_id'];
 
     public function nhanviens()
     {
@@ -24,7 +24,7 @@ class PhongBan extends Model
     public function scopeSearch($query)
     {
         if ($key = request()->key) {
-    		return $query->where('ten', $key);
+    		return $query->where('ten', $key)->orWhere('ma_phong_ban', $key);
     	}
     }
 }
