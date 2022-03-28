@@ -6,6 +6,7 @@ use App\Http\Controllers\PhongBanController;
 use App\Http\Controllers\QuanTriVienController;
 use App\Http\Controllers\QuanLyController;
 use App\Http\Controllers\NhanVienController;
+use App\Http\Controllers\GuiMailController;
 use App\Models\NhanVien;
 
 /*
@@ -38,7 +39,7 @@ Route::prefix('quan-tri-vien')->middleware('checkAdmin')->group(function () {
         Route::post('sua/{id}', [PhongBanController::class, 'update'])->name('department.update')->where('id', '[0-9]+');
         Route::get('xoa/{id}', [PhongBanController::class, 'destroy'])->name('department.destroy')->where('id', '[0-9]+');
         Route::get('xuat-file-excel', [PhongBanController::class, 'export'])->name('department.export');
-        Route::get('nhap-file-excel', [PhongBanController::class, 'import'])->name('department.import');
+        Route::post('nhap-file-excel', [PhongBanController::class, 'import'])->name('department.import');
     });
 
     Route::prefix('nhan-vien')->group(function () {
@@ -49,12 +50,14 @@ Route::prefix('quan-tri-vien')->middleware('checkAdmin')->group(function () {
         Route::post('sua/{id}', [NhanVienController::class, 'update'])->name('employee.update')->where('id', '[0-9]+');
         Route::get('xoa/{id}', [NhanVienController::class, 'destroy'])->name('employee.destroy')->where('id', '[0-9]+');
         Route::get('xuat-file-excel', [NhanVienController::class, 'export'])->name('employee.export');
+        Route::post('nhap-file-excel', [NhanVienController::class, 'import'])->name('employee.import');
     });
 });
 
 Route::prefix('quan-ly')->middleware('checkManager')->group(function () {
     Route::get('', [NhanVienController::class, 'listEmployee'])->name('list.employee');
     Route::get('xuat-file-excel', [NhanVienController::class, 'managerExport'])->name('manager.employee.export');
+    Route::get('gui-mail', [GuiMailController::class, 'sendMail'])->name('sendMail');
 });
 
 Route::prefix('nhan-vien')->middleware('checkEmployee')->group(function () {

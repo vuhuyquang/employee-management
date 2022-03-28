@@ -38,7 +38,7 @@
         </div>
         <div class="form-group">
             <label>Mật khẩu</label>
-            <input type="text" class="form-control" name="password" placeholder="Nhập mật khẩu" autocomplete="off" required>
+            <input type="password" class="form-control" name="password" placeholder="Nhập mật khẩu" autocomplete="off" required>
             @error('password')
                 <small class="help-block">{{ $message }}</small>
             @enderror

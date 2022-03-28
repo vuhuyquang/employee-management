@@ -1,34 +1,56 @@
 @extends('layouts.admin')
 
 @section('main')
-    <form action="{{ route('employee.index') }}" class="form-inline">
-        <div class="form-group">
-            <div class="form-group">
-                <input class="form-control" name="key" placeholder="Nhập họ tên/mã nhân viên" autocomplete="off">
-            </div>
-            <div class="form-group">
-                <select class="form-control" name="id" id="id">
-                    <option value="" selected disabled>--- Chọn phòng ban ---</option>
-                    @foreach ($phongbans as $phongban)
-                        <option value="{{ $phongban->id }}">{{ $phongban->ten }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <select class="form-control" name="status" id="status">
-                    <option value="" selected disabled>--- Chọn trạng thái ---</option>
-                    <option value="1">Đang làm việc</option>
-                    <option value="0">Đã nghỉ việc</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">
-                <i class="fas fa-search"></i>
-            </button>
+    <div class="row">
+        <div class="col">
+            <form action="" class="form-inline">
+                <div class="form-group">
+                    <div class="form-group">
+                        <input class="form-control" name="key" placeholder="Nhập họ tên/mã nhân viên" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" name="id" id="id">
+                            <option value="" selected disabled>--- Chọn phòng ban ---</option>
+                            @foreach ($phongbans as $phongban)
+                                <option value="{{ $phongban->id }}">{{ $phongban->ten }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" name="status" id="status">
+                            <option value="" selected disabled>--- Chọn trạng thái ---</option>
+                            <option value="1">Đang làm việc</option>
+                            <option value="0">Đã nghỉ việc</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
         </div>
-    </form>
 
+        <div class="col">
+            <div class="row form-group float-right">
+                <form action="{{ route('employee.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="col">
+                        <div class="col">
+                            <input type="file" name="file" accept=".xlsx" class="form-control">
+                        </div>
+                        <div class="col">
+                            <button type="submit">Nhập file</button>
+                            {{-- <input class="nutxuat" type="submit" class="form-control" value="Nhập file" placeholder="First name" aria-label="First name"> --}}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <a href="{{ route('employee.export') }}" class="nutxuat">Xuất file</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <hr>
-    <a href="{{ route('employee.export') }}" class="nutxuat">Xuất file</a>
     <table style="text-align: center" class="table table-hover">
         <thead>
             <tr>
@@ -41,7 +63,7 @@
                 <th>Trạng thái</th>
                 {{-- <th>SĐT</th> --}}
                 <th>Quyền</th>
-                <th>Ngày tạo</th>
+                {{-- <th>Ngày tạo</th> --}}
                 <th>Hành động</th>
             </tr>
         </thead>
@@ -81,7 +103,7 @@
                         @endswitch
                     </td>
                     {{-- <td><img style="height: 30px; width: 30px;" src="{{asset('uploads')}}/{{$nhanvien->anh_dai_dien}}" alt="Ảnh đại diện của {{$nhanvien->ho_ten}}"></td> --}}
-                    <td>{{ date('d/m/Y H:i:s', strtotime($nhanvien->created_at)) }}</td>
+                    {{-- <td>{{ date('d/m/Y H:i:s', strtotime($nhanvien->created_at)) }}</td> --}}
                     <td>
                         <a href="{{ route('employee.edit', $nhanvien->id) }}" class="btn btn-sm btn-success">
                             <i class="fas fa-edit"></i>
@@ -110,14 +132,15 @@
             color: white;
             white-space: nowrap;
             padding: 6px;
-            border-radius:5px;
+            border-radius: 5px;
             background-color: #6c757d;
             border-color: #6c757d;
         }
 
         .nutxuat:hover {
-			color: white;
+            color: white;
             border-color: #949da5;
-		}
+        }
+
     </style>
 @endsection

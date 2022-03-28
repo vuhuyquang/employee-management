@@ -4,8 +4,9 @@ namespace App\Imports;
 
 use App\Models\PhongBan;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class PhongBanImport implements ToModel
+class PhongBanImport implements ToModel, WithHeadingRow
 {
     /**
     * @param array $row
@@ -15,10 +16,10 @@ class PhongBanImport implements ToModel
     public function model(array $row)
     {
         return new PhongBan([
-            'ma_phong_ban' => $row[1],
-            'ten' => $row[2],
-            'mo_ta' => $row[3],
-            'truong_phong_id' => $row[4],
+            'ma_phong_ban' => $row['ma_phong_ban'],
+            'ten' => $row['ten'],
+            'mo_ta' => $row['mo_ta'],
+            'truong_phong_id' => $row['truong_phong_id'],
         ]);
     }
 }

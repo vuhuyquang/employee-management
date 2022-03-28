@@ -10,6 +10,7 @@ use File;
 use DB;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\NhanVienExport;
+use App\Imports\NhanVienImport;
 use App\Exports\ManagerEmployeeExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -271,5 +272,15 @@ class NhanVienController extends Controller
     public function managerExport()
     {
         return Excel::download(new ManagerEmployeeExport, 'EmployeeList.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|max:10000|mimes:xlsx,xls',
+        ]);
+
+        Excel::import(new NhanVienImport, $request->file);
+        return back()->with('success', 'Nhập dữ liệu thành công');
     }
 }

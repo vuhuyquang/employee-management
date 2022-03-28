@@ -6,8 +6,8 @@ use App\Models\PhongBan;
 use App\Models\NhanVien;
 use Illuminate\Http\Request;
 use App\Exports\PhongBanExport;
-use App\Exports\PhongBanImport;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\PhongBanImport;
+use Excel;
 
 class PhongBanController extends Controller
 {
@@ -171,8 +171,11 @@ class PhongBanController extends Controller
 
     public function import(Request $request)
     {
-        $path = $request->file('file')->getRealPath();
-        Excel::import(new PhongBanImport, $path);
-        return back();
+        $request->validate([
+            'file' => 'required|max:10000|mimes:xlsx,xls',
+        ]);
+
+        Excel::import(new PhongBanImport, $request->file);
+        return back()->with('success', 'Nhập dữ liệu thành công');
     }
 }
