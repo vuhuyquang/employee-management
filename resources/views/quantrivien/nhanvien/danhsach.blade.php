@@ -105,6 +105,9 @@
                     {{-- <td><img style="height: 30px; width: 30px;" src="{{asset('uploads')}}/{{$nhanvien->anh_dai_dien}}" alt="Ảnh đại diện của {{$nhanvien->ho_ten}}"></td> --}}
                     {{-- <td>{{ date('d/m/Y H:i:s', strtotime($nhanvien->created_at)) }}</td> --}}
                     <td>
+                        <a href="{{ route('resetPassword', $nhanvien->id) }}" class="btn btn-sm btn-warning">
+                            <i style="color: white;" class="fas fa-key"></i>
+                        </a>
                         <a href="{{ route('employee.edit', $nhanvien->id) }}" class="btn btn-sm btn-success">
                             <i class="fas fa-edit"></i>
                         </a>

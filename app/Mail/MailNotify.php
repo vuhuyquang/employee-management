@@ -6,21 +6,22 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\NhanVien;
 
-class RemindEmail extends Mailable
+class MailNotify extends Mailable
 {
     use Queueable, SerializesModels;
+    public $nhanvien;
+    public $password;
 
-    protected $hoten;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($hoten)
+    public function __construct($nhanvien, $password)
     {
-        $this->hoten = $hoten;
+        $this->nhanvien = $nhanvien;
+        $this->password = $password;
     }
 
     /**
@@ -30,6 +31,6 @@ class RemindEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('mail')->with(['data' => $this->hoten]);
+        return $this->view('quantrivien.nhanvien.resetpassword')->subject('Đặt lại mật khẩu')->with(['nhanvien' => $this->nhanvien, 'password' => $this->password]);
     }
 }

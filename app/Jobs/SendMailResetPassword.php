@@ -8,23 +8,25 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use App\Mail\MailNotify;
 use Mail;
-use App\Mail\RemindEmail;
 
-
-class SendMailRemindBirthday implements ShouldQueue
+class SendMailResetPassword implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $hoten;
+    protected $nhanvien;
+    protected $password;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($hoten)
+    public function __construct($nhanvien, $password)
     {
-        $this->hoten = $hoten;
+        $this->nhanvien = $nhanvien;
+        $this->password = $password;
     }
 
     /**
@@ -34,7 +36,6 @@ class SendMailRemindBirthday implements ShouldQueue
      */
     public function handle()
     {
-        $email = new RemindEmail($this->hoten);
-        Mail::to('vuhuyquang2k@gmail.com', 'Thư báo sinh nhật')->send($email);
+        Mail::to($this->nhanvien->email)->send(new MailNotify($this->nhanvien, $this->password));
     }
 }

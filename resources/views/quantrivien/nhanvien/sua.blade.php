@@ -37,13 +37,6 @@
             @enderror
         </div>
         <div class="form-group">
-            <label>Mật khẩu</label>
-            <input type="password" class="form-control" name="password" placeholder="Nhập mật khẩu" autocomplete="off" required>
-            @error('password')
-                <small class="help-block">{{ $message }}</small>
-            @enderror
-        </div>
-        <div class="form-group">
             <label>Ngày sinh</label>
             <input type="date" class="form-control" name="ngay_sinh" value="{{$nhanvien->ngay_sinh}}" placeholder="Nhập ngày sinh" autocomplete="off">
             @error('ngay_sinh')

@@ -51,6 +51,7 @@ Route::prefix('quan-tri-vien')->middleware('checkAdmin')->group(function () {
         Route::get('xoa/{id}', [NhanVienController::class, 'destroy'])->name('employee.destroy')->where('id', '[0-9]+');
         Route::get('xuat-file-excel', [NhanVienController::class, 'export'])->name('employee.export');
         Route::post('nhap-file-excel', [NhanVienController::class, 'import'])->name('employee.import');
+        Route::get('dat-lai-mat-khau/{id}', [NhanVienController::class, 'resetPassword'])->name('resetPassword');
     });
 });
 

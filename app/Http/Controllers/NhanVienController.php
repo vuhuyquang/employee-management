@@ -13,6 +13,8 @@ use App\Exports\NhanVienExport;
 use App\Imports\NhanVienImport;
 use App\Exports\ManagerEmployeeExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Jobs\SendMailResetPassword;
+use Illuminate\Support\Str;
 
 
 class NhanVienController extends Controller
@@ -60,7 +62,7 @@ class NhanVienController extends Controller
             'ho_ten' => 'required|min:3|max:30',
             'phong_ban_id' => 'required|numeric',
             'password' => 'required|min:6|max:32',
-            'email' => 'required|max:30|email',
+            'email' => 'required|max:60|email',
             'ngay_sinh' => 'required|date',
             'ngay_dau_tien' => 'required|date',
             'trang_thai' => 'required',
@@ -77,7 +79,7 @@ class NhanVienController extends Controller
             'phong_ban_id.required' => 'Trường dữ liệu không được để trống',
             'phong_ban_id.numeric' => 'Dữ liệu nhập vào phải là kiểu số',
             'email.required' => 'Trường dữ liệu không được để trống',
-            'email.max' => 'Dữ liệu nhập vào có tối đa 30 ký tự',
+            'email.max' => 'Dữ liệu nhập vào có tối đa 60 ký tự',
             'email.email' => 'Dữ liệu nhập vào phải là dạng email',
             'password.required' => 'Trường dữ liệu không được để trống',
             'password.max' => 'Dữ liệu nhập vào có tối đa 32 ký tự',
@@ -158,10 +160,7 @@ class NhanVienController extends Controller
             'ma_nhan_vien' => 'required|min:3|max:15|unique:nhanviens,ma_nhan_vien,' . $id,
             'ho_ten' => 'required|min:3|max:30',
             'phong_ban_id' => 'required|numeric',
-            'email' => 'required|max:30|email',
-            'password' => 'required|min:6|max:32',
-            'email' => 'required|max:30|email',
-            'password' => 'required|min:6|max:32',
+            'email' => 'required|max:60|email',
             'ngay_sinh' => 'required|date',
             'ngay_dau_tien' => 'required|date',
             'trang_thai' => 'required',
@@ -179,11 +178,8 @@ class NhanVienController extends Controller
             'phong_ban_id.required' => 'Trường dữ liệu không được để trống',
             'phong_ban_id.numeric' => 'Dữ liệu nhập vào phải là kiểu số',
             'email.required' => 'Trường dữ liệu không được để trống',
-            'email.max' => 'Dữ liệu nhập vào có tối đa 30 ký tự',
+            'email.max' => 'Dữ liệu nhập vào có tối đa 60 ký tự',
             'email.email' => 'Dữ liệu nhập vào phải là dạng email',
-            'password.required' => 'Trường dữ liệu không được để trống',
-            'password.max' => 'Dữ liệu nhập vào có tối đa 32 ký tự',
-            'password.min' => 'Dữ liệu nhập vào có tối thiểu 6 ký tự',
             'ngay_sinh.required' => 'Trường dữ liệu không được để trống',
             'ngay_sinh.date' => 'Dữ liệu nhập vào phải là kiểu ngày tháng',
             'ngay_dau_tien.required' => 'Trường dữ liệu không được để trống',
@@ -209,7 +205,6 @@ class NhanVienController extends Controller
         $nhanvien->ho_ten = $request->ho_ten;
         $nhanvien->phong_ban_id = $request->phong_ban_id;
         $nhanvien->email = $request->email;
-        $nhanvien->password = bcrypt($request->password);
         $nhanvien->ngay_sinh = $request->ngay_sinh;
         $nhanvien->ngay_dau_tien = $request->ngay_dau_tien;
         $nhanvien->trang_thai = $request->trang_thai;
@@ -282,5 +277,20 @@ class NhanVienController extends Controller
 
         Excel::import(new NhanVienImport, $request->file);
         return back()->with('success', 'Nhập dữ liệu thành công');
+    }
+
+    public function resetPassword($id)
+    {
+        $password = Str::random(10);
+        $nhanvien = NhanVien::findOrFail($id);
+        $nhanvien->password = bcrypt($password);
+        $nhanvien->lan_dau_tien = 'true';
+        if ($nhanvien->save()) {
+            $restPasswordJob = new SendMailResetPassword($nhanvien, $password);
+            dispatch($restPasswordJob);
+            return redirect()->back()->with('success', 'Đã gửi mail đặt lại mật khẩu');
+        } else {
+            return redirect()->back()->with('error', 'Gửi mail thất bại');
+        }
     }
 }

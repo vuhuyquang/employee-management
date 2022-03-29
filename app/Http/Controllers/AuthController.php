@@ -22,13 +22,13 @@ class AuthController extends Controller
         $this->validate(
             $request,
             [
-                'email' => 'required|email|max:30',
+                'email' => 'required|email|max:50',
                 'password' => 'required|min:6|max:32',
             ],
             [
                 'email.required' => 'Trường dữ liệu không được để trống',
                 'email.email' => 'Dữ liệu nhập vào phải là kiểu email',
-                'email.max' => 'Dữ liệu nhập có tối đa 30 ký tự',
+                'email.max' => 'Dữ liệu nhập có tối đa 50 ký tự',
                 'password.required' => 'Trường dữ liệu không được để trống',
                 'password.min' => 'Dữ liệu nhập có tối thiểu 6 ký tự',
                 'password.max' => 'Dữ liệu nhập có tối đa 32 ký tự',
@@ -49,7 +49,15 @@ class AuthController extends Controller
         } elseif(Auth::user()->quyen == 'manager') {
             return redirect()->route('list.employee');
         } elseif(Auth::user()->quyen == 'employee') {
-            return redirect()->route('getProfile');
+            if (Auth::user()->quyen == 'employee' && Auth::user()->lan_dau_tien == 'true') {
+                $nhanvien= NhanVien::findOrFail(Auth::user()->id);
+                $nhanvien->lan_dau_tien = 'false';
+                if ($nhanvien->save()) {
+                    return redirect()->route('getChangePassword')->with('warning', 'Sau khi reset mật khẩu, hãy đổi lại mật khẩu để đảm bảo an toàn');
+                }
+            } elseif (Auth::user()->quyen == 'employee' && Auth::user()->lan_dau_tien == 'false') {
+                return redirect()->route('getProfile');
+            }
         }
     }
 

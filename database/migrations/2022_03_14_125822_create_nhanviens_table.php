@@ -18,13 +18,14 @@ class CreateNhanviensTable extends Migration
             $table->string('ma_nhan_vien', 15)->unique();
             $table->string('ho_ten', 30);
             $table->integer('phong_ban_id');
-            $table->string('email', 30);
+            $table->string('email', 50);
             $table->string('password', 255);
             $table->date('ngay_sinh');
             $table->date('ngay_dau_tien');
             $table->integer('trang_thai')->default(1)->comment('1: Đang làm việc, 0: Đã nghỉ việc');
             $table->text('anh_dai_dien');
             $table->string('so_dien_thoai', 10)->nullable()->unique();
+            $table->string('lan_dau_tien', 10)->default('false');
             $table->string('quyen')->default('employee');
             $table->timestamps();
         });

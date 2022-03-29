@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Exports\PhongBanExport;
 use App\Imports\PhongBanImport;
 use Excel;
+use App\Http\Requests\PhongBanRequest;
+use App\Http\Requests\PhongBanUpdateRequest;
 
 class PhongBanController extends Controller
 {
@@ -39,26 +41,8 @@ class PhongBanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PhongBanRequest $request)
     {
-        $request->validate([
-            'ma_phong_ban' => 'required|min:3|max:15|unique:phongbans,ma_phong_ban',
-            'ten' => 'required|min:3|max:50|unique:phongbans,ten',
-            'mo_ta' => 'max:254',
-            'truong_phong_id' => 'unique:phongbans,truong_phong_id'
-        ], [
-            'ma_phong_ban.required' => 'Trường dữ liệu không được để trống',
-            'ma_phong_ban.min' => 'Dữ liệu nhập vào phải có tối thiểu 3 ký tự',
-            'ma_phong_ban.max' => 'Dữ liệu nhập vào phải có tối đa 15 ký tự',
-            'ma_phong_ban.unique' => 'Dữ liệu nhập vào không được trùng lặp',
-            'ten.required' => 'Trường dữ liệu không được để trống',
-            'ten.min' => 'Dữ liệu nhập vào phải có tối thiểu 3 ký tự',
-            'ten.max' => 'Dữ liệu nhập vào phải có tối đa 50 ký tự',
-            'ten.unique' => 'Dữ liệu nhập vào không được trùng lặp',
-            'ten.max' => 'Dữ liệu nhập vào phải có tối đa 254 ký tự',
-            'truong_phong_id.unique' => 'Dữ liệu nhập vào không được trùng lặp'
-        ]);
-
         $phongban = new PhongBan;
         $phongban->ma_phong_ban = $request->ma_phong_ban;
         $phongban->ten = $request->ten;
@@ -112,7 +96,7 @@ class PhongBanController extends Controller
      * @param  \App\Models\PhongBan  $phongBan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PhongBanUpdateRequest $request, $id)
     {
         $request->validate([
             'ma_phong_ban' => 'required|min:3|max:15|unique:phongbans,ma_phong_ban,' . $id,

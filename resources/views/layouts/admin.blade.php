@@ -188,6 +188,12 @@
                                             {{ Session::get('success') }}
                                         </div>
                                     @endif
+                                    @if (Session::has('warning'))
+                                        <div class="alert alert-warning">
+                                            <button type="button" class="close" data-dismiss="alert"></button>
+                                            {{ Session::get('warning') }}
+                                        </div>
+                                    @endif
                                     @yield('main')
                                 </div>
                                 <!-- /.card-footer-->
