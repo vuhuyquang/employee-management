@@ -35,15 +35,6 @@
                 <form action="{{ route('employee.import') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="col">
-                        <div class="col">
-                            <input type="file" name="file" accept=".xlsx" class="form-control">
-                        </div>
-                        <div class="col">
-                            <button type="submit">Nhập file</button>
-                            {{-- <input class="nutxuat" type="submit" class="form-control" value="Nhập file" placeholder="First name" aria-label="First name"> --}}
-                        </div>
-                    </div>
-                    <div class="col">
                         <a href="{{ route('employee.export') }}" class="nutxuat">Xuất file</a>
                     </div>
                 </form>

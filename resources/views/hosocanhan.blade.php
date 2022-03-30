@@ -29,7 +29,7 @@
                                         viên</label>
                                     <div class="col-md-6">
                                         <input type="text" value="{{ $nhanvien->ma_nhan_vien }}" id="ma_nhan_vien"
-                                            class="form-control" name="ma_nhan_vien" required autofocus readonly>
+                                            class="form-control" name="ma_nhan_vien" required autofocus readonly class="form-control-plaintext">
                                     </div>
                                 </div>
 
@@ -37,17 +37,9 @@
                                     <label for="ho_ten" class="col-md-4 col-form-label text-md-right">Họ tên</label>
                                     <div class="col-md-6">
                                         <input type="text" value="{{ $nhanvien->ho_ten }}" id="ho_ten"
-                                            class="form-control" name="ho_ten" required autofocus readonly>
+                                            class="form-control" name="ho_ten" required autofocus readonly class="form-control-plaintext">
                                     </div>
                                 </div>
-
-                                {{-- <div class="form-group row">
-                                    <label for="phong_ban_id" class="col-md-4 col-form-label text-md-right">Phòng ban</label>
-                                    <div class="col-md-6">
-                                        <input type="text" value="{{ $nhanvien->phongbans->ten }}" id="phong_ban_id"
-                                            class="form-control" name="phong_ban_id" required autofocus readonly>
-                                    </div>
-                                </div> --}}
 
                                 <div class="form-group row">
                                     <label for="phong_ban_id" class="col-md-4 col-form-label text-md-right">Phòng

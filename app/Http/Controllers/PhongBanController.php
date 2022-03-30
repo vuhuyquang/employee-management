@@ -9,7 +9,6 @@ use App\Exports\PhongBanExport;
 use App\Imports\PhongBanImport;
 use Excel;
 use App\Http\Requests\PhongBanRequest;
-use App\Http\Requests\PhongBanUpdateRequest;
 
 class PhongBanController extends Controller
 {
@@ -96,7 +95,7 @@ class PhongBanController extends Controller
      * @param  \App\Models\PhongBan  $phongBan
      * @return \Illuminate\Http\Response
      */
-    public function update(PhongBanUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'ma_phong_ban' => 'required|min:3|max:15|unique:phongbans,ma_phong_ban,' . $id,
@@ -157,6 +156,10 @@ class PhongBanController extends Controller
     {
         $request->validate([
             'file' => 'required|max:10000|mimes:xlsx,xls',
+        ], [
+            'file.required' => 'Trường dữ liệu không được để trống',
+            'file.max' => 'Dữ liệu nhập vào có tối đa 10kb',
+            'file.mimes' => 'Dữ liệu nhập vào phải là file xlsx, xls',
         ]);
 
         Excel::import(new PhongBanImport, $request->file);

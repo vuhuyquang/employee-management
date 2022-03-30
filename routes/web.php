@@ -17,7 +17,7 @@ use App\Models\NhanVien;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('quantrivien.nhanvien.resetpassword');
 });
 
 Route::get('dang-nhap', [AuthController::class, 'getLogin'])->name('getLogin');

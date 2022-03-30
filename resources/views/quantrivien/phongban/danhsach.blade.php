@@ -1,40 +1,32 @@
 @extends('layouts.admin')
 
 @section('main')
-<div class="row">
-	<div class="col">
-		<form action="" class="form-inline">
-			<div class="form-group">
-				<input class="form-control" name="key" placeholder="Nhập tên phòng ban" autocomplete="off">
-			</div>
-			<button type="submit" class="btn btn-primary">
-				<i class="fas fa-search"></i>
-			</button>
-		</form>
-	</div>
-	<div class="col">
-		<div class="row form-group float-right">
-			<form action="{{ route('department.import') }}" method="POST" enctype="multipart/form-data">
-				@csrf
-				<div class="col">
-					<div class="col">
-					  <input type="file" name="file" accept=".xlsx" class="form-control">
-					</div>
-					<div class="col">
-						<button type="submit">Nhập file</button>
-						{{-- <input class="nutxuat" type="submit" class="form-control" value="Nhập file" placeholder="First name" aria-label="First name"> --}}
-					</div>
-				</div>
-				<div class="col">
-					<a href="{{ route('department.export') }}" class="nutxuat">Xuất file</a>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-    
+
+    <div class="row">
+        <div class="col">
+            <form action="" class="form-inline">
+                <div class="form-group">
+                    <input class="form-control" name="key" placeholder="Nhập tên phòng ban" autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+        <div class="col">
+            <div class="row form-group float-right">
+                <form action="{{ route('department.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="col">
+                        <a href="{{ route('department.export') }}" class="nutxuat">Xuất file</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <hr>
-    
+
     <table style="text-align: center" class="table table-hover">
         <thead>
             <tr>

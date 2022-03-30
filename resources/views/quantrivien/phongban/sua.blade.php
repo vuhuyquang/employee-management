@@ -3,7 +3,7 @@
     <form action="{{ route('department.update', ['id' => $phongban->id]) }}" method="POST">
         @csrf
         <div class="form-group">
-            <label>Mã phòng ban</label>
+            <label>Mã phòng ban <label for="" style="color: red;">*</label></label>
             <input type="text" class="form-control" name="ma_phong_ban" value="{{$phongban->ma_phong_ban}}" placeholder="Nhập mã phòng ban" autocomplete="off"
                 required>
             @error('ma_phong_ban')
@@ -11,7 +11,7 @@
             @enderror
         </div>
         <div class="form-group">
-            <label>Phòng ban</label>
+            <label>Phòng ban <label for="" style="color: red;">*</label></label>
             <input type="text" class="form-control" name="ten" value="{{$phongban->ten}}" placeholder="Nhập phòng ban" autocomplete="off" required>
             @error('ten')
                 <small class="help-block">{{ $message }}</small>
