@@ -17,12 +17,13 @@ use App\Models\NhanVien;
 */
 
 Route::get('/', function () {
-    return view('quantrivien.nhanvien.resetpassword');
+    return view('welcome');
 });
 
 Route::get('dang-nhap', [AuthController::class, 'getLogin'])->name('getLogin');
 Route::post('dang-nhap', [AuthController::class, 'postLogin'])->name('postLogin');
 Route::get('chuyen-huong', [AuthController::class, 'redirect'])->name('redirect');
+Route::get('dang-nhap-lan-dau', [AuthController::class, 'checkfirstlogin'])->name('checkfirstlogin');
 Route::get('dang-xuat', [AuthController::class, 'getLogout'])->name('getLogout');
 Route::get('doi-mat-khau', [AuthController::class, 'getChangePassword'])->name('getChangePassword');
 Route::post('doi-mat-khau', [AuthController::class, 'postChangePassword'])->name('postChangePassword');

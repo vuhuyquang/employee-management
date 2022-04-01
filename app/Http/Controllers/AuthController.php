@@ -45,19 +45,32 @@ class AuthController extends Controller
     public function redirect()
     {
         if (Auth::user()->quyen == 'admin') {
-            return redirect()->route('employee.index');
+            if (Auth::user()->lan_dau_tien == 'true') {
+                return redirect()->route('checkfirstlogin');
+            } else {
+                return redirect()->route('employee.index');
+            }
         } elseif(Auth::user()->quyen == 'manager') {
-            return redirect()->route('list.employee');
+            if (Auth::user()->lan_dau_tien == 'true') {
+                return redirect()->route('checkfirstlogin');
+            } else {
+                return redirect()->route('list.employee');
+            }
         } elseif(Auth::user()->quyen == 'employee') {
-            if (Auth::user()->quyen == 'employee' && Auth::user()->lan_dau_tien == 'true') {
-                $nhanvien= NhanVien::findOrFail(Auth::user()->id);
-                $nhanvien->lan_dau_tien = 'false';
-                if ($nhanvien->save()) {
-                    return redirect()->route('getChangePassword')->with('warning', 'Sau khi reset mật khẩu, hãy đổi lại mật khẩu để đảm bảo an toàn');
-                }
-            } elseif (Auth::user()->quyen == 'employee' && Auth::user()->lan_dau_tien == 'false') {
+            if (Auth::user()->lan_dau_tien == 'true') {
+                return redirect()->route('checkfirstlogin');
+            } else {
                 return redirect()->route('getProfile');
             }
+        }
+    }
+
+    public function checkfirstlogin()
+    {
+        $nhanvien= NhanVien::findOrFail(Auth::user()->id);
+        $nhanvien->lan_dau_tien = 'false';
+        if ($nhanvien->save()) {
+            return redirect()->route('getChangePassword')->with('warning', 'Sau khi reset mật khẩu, hãy đổi lại mật khẩu để đảm bảo an toàn');
         }
     }
 

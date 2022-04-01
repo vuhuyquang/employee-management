@@ -46,7 +46,7 @@ class NhanVien extends Authenticatable
     	} elseif ($id = request()->id) {
             return $query->where('phong_ban_id', $id);
         } elseif ($status = request()->status) {
-            return $query->where('trang_thai', $status);
+            return $query->where('trang_thai', 'like', '%'.$status.'%');
         } 
     }
 }

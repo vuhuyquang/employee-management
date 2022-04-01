@@ -16,15 +16,15 @@ class SendMailRemindBirthday implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $hoten;
+    protected $data;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($hoten)
+    public function __construct($data)
     {
-        $this->hoten = $hoten;
+        $this->data = $data;
     }
 
     /**
@@ -33,8 +33,7 @@ class SendMailRemindBirthday implements ShouldQueue
      * @return void
      */
     public function handle()
-    {
-        $email = new RemindEmail($this->hoten);
-        Mail::to('vuhuyquang2k@gmail.com', 'Thư báo sinh nhật')->send($email);
+    {   
+        Mail::to($this->data['email'])->send(new RemindEmail($this->data['arrNhanVien']));
     }
 }

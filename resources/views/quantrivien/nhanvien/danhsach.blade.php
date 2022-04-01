@@ -2,35 +2,47 @@
 
 @section('main')
     <div class="row">
-        <div class="col">
+        <div class="col-md-8">
             <form action="" class="form-inline">
-                <div class="form-group">
-                    <div class="form-group">
-                        <input class="form-control" name="key" placeholder="Nhập họ tên/mã nhân viên" autocomplete="off">
+                
+                    
+                
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input class="form-control" name="key" placeholder="Nhập họ tên/mã nhân viên"
+                                autocomplete="off">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <select class="form-control" name="id" id="id">
-                            <option value="" selected disabled>--- Chọn phòng ban ---</option>
-                            @foreach ($phongbans as $phongban)
-                                <option value="{{ $phongban->id }}">{{ $phongban->ten }}</option>
-                            @endforeach
-                        </select>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <select class="form-control" name="id" id="id">
+                                <option value="" selected disabled>--- Chọn phòng ban ---</option>
+                                @foreach ($phongbans as $phongban)
+                                    <option value="{{ $phongban->id }}">{{ $phongban->ten }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <select class="form-control" name="status" id="status">
-                            <option value="" selected disabled>--- Chọn trạng thái ---</option>
-                            <option value="1">Đang làm việc</option>
-                            <option value="0">Đã nghỉ việc</option>
-                        </select>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <select class="form-control" name="status" id="status">
+                                <option value="" selected disabled>--- Chọn trạng thái ---</option>
+                                <option value="1">Đang làm việc</option>
+                                <option value="0">Đã nghỉ việc</option>
+                            </select>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-search"></i>
-                    </button>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                 </div>
+
             </form>
         </div>
-
-        <div class="col">
+        <div class="col-md-4">
             <div class="row form-group float-right">
                 <form action="{{ route('employee.import') }}" method="POST" enctype="multipart/form-data">
                     @csrf

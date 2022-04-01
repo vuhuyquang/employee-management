@@ -9,11 +9,24 @@
             <div class="col-sm-4">
                 <div class="input-group mb-3">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" accept=".xlsx" id="validatedCustomFile" required>
+                        <input type="file" class="custom-file-input" accept=".xlsx" name="file" id="validatedCustomFile"
+                            required>
                         <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
                     </div>
                     <button type="submit" class="btn btn-outline-secondary" type="button" id="button-addon2">Nhập
                         file</button>
+                    @error('file')
+                        <small class="help-block">{{ $message }}</small>
+                    @enderror
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -99,7 +112,7 @@
             @enderror
         </div>
         <div class="form-group">
-            <label>Số điện thoại</label>
+            <label>Số điện thoại <label for="" style="color: red;">*</label></label>
             <input type="text" class="form-control" name="so_dien_thoai" placeholder="Nhập số điện thoại"
                 autocomplete="off">
             @error('so_dien_thoai')

@@ -1,3 +1,9 @@
+{{-- <h4>Xin chào {{ $nhanvien->ho_ten }},</h4>
+<h4>Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu Facebook của bạn.</h4>
+<h4>Mã đặt lại mật khẩu của bạn là: {{$password}} </h4>
+<h4></h4> --}}
+
+
 
 <body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
     <!--100% body table-->
@@ -29,16 +35,27 @@
                                 </tr>
                                 <tr>
                                     <td style="padding:0 35px;">
-                                        <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">Khôi phục tài khoản của bạn</h1>
+                                        <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">Danh sách nhân viên có sinh nhật là ngày hôm nay</h1>
                                         <span
                                             style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
                                         <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
-                                            Xin chào {{ $nhanvien->ho_ten }},<br>
-                                            Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu của bạn.<br>
-                                            Nhập mã đặt lại mật khẩu sau đây:<br>
+                                            <table style="text-align: center; border-collapse: collapse; margin-left: auto; margin-right: auto;">
+                                                <tr>
+                                                    <td>STT</td>
+                                                    <td>Họ tên</td>
+                                                    <td>Email</td>
+                                                </tr>
+                                                @foreach ($data as $key => $item)
+                                                <tr>
+                                                    <td>{{ $key+1 }}</td>
+                                                    <td>{{ $item['ho_ten'] }}</td>
+                                                    <td>{{ $item['email'] }}</td>
+                                                </tr>
+                                                @endforeach
+                                            </table>
                                         </p>
                                         <a href="javascript:void(0);"
-                                            style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">{{$password}}
+                                            style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">
                                         </a>
                                     </td>
                                 </tr>
@@ -63,3 +80,4 @@
     </table>
     <!--/100% body table-->
 </body>
+

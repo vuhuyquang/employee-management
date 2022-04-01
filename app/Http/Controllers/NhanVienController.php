@@ -16,6 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Jobs\SendMailResetPassword;
 use Illuminate\Support\Str;
 use App\Http\Requests\NhanVienRequest;
+use Carbon\Carbon;
 
 
 class NhanVienController extends Controller
@@ -56,6 +57,7 @@ class NhanVienController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(NhanVienRequest $request)
     {
         if ($request->has('anh_dai_dien')) {
@@ -239,7 +241,6 @@ class NhanVienController extends Controller
             'file.max' => 'Dữ liệu nhập vào có tối đa 10kb',
             'file.mimes' => 'Dữ liệu nhập vào phải là file xlsx, xls',
         ]);
-
         Excel::import(new NhanVienImport, $request->file);
         return back()->with('success', 'Nhập dữ liệu thành công');
     }

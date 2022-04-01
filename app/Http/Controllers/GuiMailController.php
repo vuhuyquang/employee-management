@@ -19,14 +19,17 @@ class GuiMailController extends Controller
         $arrNhanVien = array();
         foreach ($quanlys as $key2 => $quanly) {
             foreach ($nhanviens as $key => $nhanvien) {
-                if ($quanly['phong_ban_id'] == $nhanvien['phong_ban_id']) {
+                if ($nhanvien['phong_ban_id'] == $quanly['phong_ban_id']) {
                     $arrNhanVien[] = $nhanvien;
+                    $email = $quanly['email'];
                 }
-            }        
+            }
+            if ($arrNhanVien != null) {
+                $data = ['arrNhanVien' => $arrNhanVien, 'email' => $email];
+                $emailJob = new SendMailRemindBirthday($data);
+                dispatch($emailJob);
+            }
         }
-
-        $emailJob = new SendMailRemindBirthday($nhanvien->ho_ten);
-        dispatch($emailJob);
         return redirect()->back();
     }
 }

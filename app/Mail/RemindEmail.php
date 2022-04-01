@@ -12,15 +12,15 @@ class RemindEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $hoten;
+    protected $data;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($hoten)
+    public function __construct($data)
     {
-        $this->hoten = $hoten;
+        $this->data = $data;
     }
 
     /**
@@ -30,6 +30,6 @@ class RemindEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('mail')->with(['data' => $this->hoten]);
+        return $this->view('quanly.mail')->with(['data' => $this->data]);
     }
 }
