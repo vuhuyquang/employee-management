@@ -105,7 +105,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label>Ảnh đại diện <label for="" style="color: red;">*</label></label>
+            <label>Ảnh đại diện</label>
             <input type="file" class="form-control" name="anh_dai_dien" autocomplete="off">
             @error('anh_dai_dien')
                 <small class="help-block">{{ $message }}</small>

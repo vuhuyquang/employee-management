@@ -1,25 +1,32 @@
 @extends('layouts.admin')
 
 @section('main')
-    <form action="{{ route('employee.index') }}" class="form-inline">
-        <div class="form-group">
-            <div class="form-group">
-                <input class="form-control" name="key" placeholder="Nhập họ tên/mã nhân viên" autocomplete="off">
-            </div>
-            <div class="form-group">
-                <select class="form-control" name="status" id="status">
-                    <option value="" selected disabled>--- Chọn trạng thái ---</option>
-                    <option value="1">Đang làm việc</option>
-                    <option value="0">Đã nghỉ việc</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">
-                <i class="fas fa-search"></i>
-            </button>
+    <div class="row">
+        <div class="col">
+            <form action="{{ route('employee.index') }}" class="form-inline">
+                <div class="form-group">
+                    <div class="form-group">
+                        <input class="form-control" name="key" placeholder="Nhập họ tên/mã nhân viên" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" name="status" id="status">
+                            <option value="" selected disabled>--- Chọn trạng thái ---</option>
+                            <option value="1">Đang làm việc</option>
+                            <option value="0">Đã nghỉ việc</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
         </div>
-    </form>
+        <div class="col">
+            <a href="{{ route('manager.employee.export') }}" class="nutxuat">Xuất file</a>
+        </div>
+    </div>
     <hr>
-    <a href="{{ route('manager.employee.export') }}" class="nutxuat">Xuất file</a>
+
     <table style="text-align: center" class="table table-hover">
         <thead>
             <tr>

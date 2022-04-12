@@ -1,20 +1,39 @@
 @extends('layouts.admin')
 
 @section('main')
+
     <div class="row">
         <div class="col-md-8">
             <form action="" class="form-inline">
-                
-                    
-                
                 <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <input class="form-control" name="key" placeholder="Nhập họ tên/mã nhân viên"
-                                autocomplete="off">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input class="form-control" name="key" placeholder="Nhập họ tên nhân viên"
+                                    autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <select class="form-control" name="bd" id="bd">
+                                    <option value="" selected disabled>--- Sx theo ngày sinh ---</option>
+                                    <option value="ASC">Tăng dần</option>
+                                    <option value="DESC">Giảm dần</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <select class="form-control" name="fd" id="fd">
+                                    <option value="" selected disabled>--- Sx theo ngày đầu ---</option>
+                                    <option value="ASC">Tăng dần</option>
+                                    <option value="DESC">Giảm dần</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="row">
+                        <div class="col">
                         <div class="form-group">
                             <select class="form-control" name="id" id="id">
                                 <option value="" selected disabled>--- Chọn phòng ban ---</option>
@@ -24,7 +43,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col">
                         <div class="form-group">
                             <select class="form-control" name="status" id="status">
                                 <option value="" selected disabled>--- Chọn trạng thái ---</option>
@@ -33,10 +52,11 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-search"></i>
                         </button>
+                    </div>
                     </div>
                 </div>
 
@@ -62,7 +82,7 @@
                 <th>Họ tên</th>
                 <th>Phòng ban</th>
                 <th>Email</th>
-                {{-- <th>Ngày sinh</th> --}}
+                <th>Ngày sinh</th>
                 <th>Trạng thái</th>
                 {{-- <th>SĐT</th> --}}
                 <th>Quyền</th>
@@ -76,9 +96,9 @@
                     <td>{{ $key + 1 }}</td>
                     <td>{{ $nhanvien->ma_nhan_vien }}</td>
                     <td>{{ $nhanvien->ho_ten }}</td>
-                    <td>{{ $nhanvien->phongbans->ten }}</td>
+                    <td></td>
                     <td>{{ $nhanvien->email }}</td>
-                    {{-- <td>{{ date('d/m/Y', strtotime($nhanvien->ngay_sinh)) }}</td> --}}
+                    <td>{{ date('d/m/Y', strtotime($nhanvien->ngay_sinh)) }}</td>
                     <td>
                         @if ($nhanvien->trang_thai == 1)
                             <span class="badge badge-success">Đang làm việc</span>

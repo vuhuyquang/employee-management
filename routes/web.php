@@ -40,7 +40,6 @@ Route::prefix('quan-tri-vien')->middleware('checkAdmin')->group(function () {
         Route::post('sua/{id}', [PhongBanController::class, 'update'])->name('department.update')->where('id', '[0-9]+');
         Route::get('xoa/{id}', [PhongBanController::class, 'destroy'])->name('department.destroy')->where('id', '[0-9]+');
         Route::get('xuat-file-excel', [PhongBanController::class, 'export'])->name('department.export');
-        Route::post('nhap-file-excel', [PhongBanController::class, 'import'])->name('department.import');
     });
 
     Route::prefix('nhan-vien')->group(function () {

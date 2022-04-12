@@ -151,18 +151,4 @@ class PhongBanController extends Controller
     {
         return Excel::download(new PhongBanExport, 'DepartmentList.xlsx');
     }
-
-    public function import(Request $request)
-    {
-        $request->validate([
-            'file' => 'required|max:10000|mimes:xlsx,xls',
-        ], [
-            'file.required' => 'Trường dữ liệu không được để trống',
-            'file.max' => 'Dữ liệu nhập vào có tối đa 10kb',
-            'file.mimes' => 'Dữ liệu nhập vào phải là file xlsx, xls',
-        ]);
-
-        Excel::import(new PhongBanImport, $request->file);
-        return back()->with('success', 'Nhập dữ liệu thành công');
-    }
 }

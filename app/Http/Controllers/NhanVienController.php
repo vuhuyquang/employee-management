@@ -30,6 +30,7 @@ class NhanVienController extends Controller
     {
         $phongbans = PhongBan::all();
         $nhanviens = NhanVien::orderBy('ngay_dau_tien', 'ASC')->search()->paginate(15);
+        $nhanviens->load('phongban');
         return view('quantrivien.nhanvien.danhsach', compact('nhanviens', 'phongbans'));
     }
 
@@ -127,7 +128,7 @@ class NhanVienController extends Controller
             'ngay_sinh' => 'required|date',
             'ngay_dau_tien' => 'required|date',
             'trang_thai' => 'required',
-            'anh_dai_dien' => 'mimes:jpeg,jpg,png,gif|required|max:2048',
+            'anh_dai_dien' => 'mimes:jpeg,jpg,png,gif|max:2048',
             'so_dien_thoai' => 'required|max:10|unique:nhanviens,so_dien_thoai,' . $id,
             // 'quyen' => 'required'
         ], [
@@ -148,7 +149,6 @@ class NhanVienController extends Controller
             'ngay_dau_tien.required' => 'Trường dữ liệu không được để trống',
             'ngay_dau_tien.date' => 'Dữ liệu nhập vào phải là kiểu ngày tháng',
             'trang_thai.required' => 'Trường dữ liệu không được để trống',
-            'anh_dai_dien.required' => 'Trường dữ liệu không được để trống',
             'anh_dai_dien.mimes' => 'Hình ảnh phải có định đạng jpeg, jpg, png, gif',
             'anh_dai_dien.max' => 'Dữ liệu nhập vào có tối đa 10000 kb',
             'so_dien_thoai.required' => 'Trường dữ liệu không được để trống',
@@ -156,12 +156,6 @@ class NhanVienController extends Controller
             'so_dien_thoai.unique' => 'Dữ liệu nhập vào không được trùng lặp',
             // 'quyen.required' => 'Trường dữ liệu không được để trống'
         ]);
-
-        if ($request->has('anh_dai_dien')) {
-            $data = $this->resizeimage($request);
-            $tenanh = $data['tenanh'];
-            $hinhanh_resize = $data['hinhanh_resize'];
-        }
 
         $nhanvien = NhanVien::findOrFail($id);
         $nhanvien->ma_nhan_vien = $request->ma_nhan_vien;
@@ -171,9 +165,14 @@ class NhanVienController extends Controller
         $nhanvien->ngay_sinh = $request->ngay_sinh;
         $nhanvien->ngay_dau_tien = $request->ngay_dau_tien;
         $nhanvien->trang_thai = $request->trang_thai;
-        $nhanvien->anh_dai_dien = $tenanh;
         $nhanvien->so_dien_thoai = $request->so_dien_thoai;
         // $nhanvien->quyen = $request->quyen;
+        if ($request->has('anh_dai_dien')) {
+            $data = $this->resizeimage($request);
+            $tenanh = $data['tenanh'];
+            $hinhanh_resize = $data['hinhanh_resize'];
+            $nhanvien->anh_dai_dien = $tenanh;
+        }
 
         if ($request->quyen == 'manager') {
             $phongban = PhongBan::find($request->phong_ban_id);
