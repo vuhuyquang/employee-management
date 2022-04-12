@@ -31,7 +31,7 @@ class NhanVien extends Authenticatable
 
     public function phongbans()
     {
-        return $this->belongsTo(PhongBan::class);
+        return $this->hasOne(PhongBan::class, 'id', 'phong_ban_id');
     }
 
     public function phongban()
@@ -41,16 +41,13 @@ class NhanVien extends Authenticatable
 
     public function scopeSearch($query)
     {
+        // dd(is_integer((int)request()->status));
         if ($key = request()->key) {
     		return $query->where('ma_nhan_vien', 'like', '%'.$key.'%')->orWhere('ho_ten', 'like', '%'.$key.'%');
     	} elseif ($id = request()->id) {
             return $query->where('phong_ban_id', $id);
-        } elseif ($status = request()->status) {
-            return $query->where('trang_thai', 'like', '%'.$status.'%');
-        } elseif ($bd = request()->bd) {
-            return $query->orderBy('ngay_sinh', '${bd}');
-        } elseif ($fd = request()->fd) {
-            return $query->orderBy('ngay_dau_tien', '$fd');
-        } 
+        } elseif ($status = (int)(request()->status)) {
+            return $query->where('trang_thai', '=', $status);
+        }
     }
 }

@@ -1,39 +1,17 @@
 @extends('layouts.admin')
 
 @section('main')
-
     <div class="row">
         <div class="col-md-8">
             <form action="" class="form-inline">
                 <div class="row">
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <input class="form-control" name="key" placeholder="Nhập họ tên nhân viên"
-                                    autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <select class="form-control" name="bd" id="bd">
-                                    <option value="" selected disabled>--- Sx theo ngày sinh ---</option>
-                                    <option value="ASC">Tăng dần</option>
-                                    <option value="DESC">Giảm dần</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <select class="form-control" name="fd" id="fd">
-                                    <option value="" selected disabled>--- Sx theo ngày đầu ---</option>
-                                    <option value="ASC">Tăng dần</option>
-                                    <option value="DESC">Giảm dần</option>
-                                </select>
-                            </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <input class="form-control" name="key" placeholder="Nhập họ tên/mã nhân viên"
+                                autocomplete="off">
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
+                    <div class="col">
                         <div class="form-group">
                             <select class="form-control" name="id" id="id">
                                 <option value="" selected disabled>--- Chọn phòng ban ---</option>
@@ -48,7 +26,7 @@
                             <select class="form-control" name="status" id="status">
                                 <option value="" selected disabled>--- Chọn trạng thái ---</option>
                                 <option value="1">Đang làm việc</option>
-                                <option value="0">Đã nghỉ việc</option>
+                                <option value="2">Đã nghỉ việc</option>
                             </select>
                         </div>
                     </div>
@@ -57,10 +35,36 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
-                    </div>
                 </div>
-
             </form>
+            <div class="row">
+                <form action="{{ route('date') }}" method="POST" class="form-inline">
+                    @csrf
+                    <div class="col">
+                        <div class="form-group">
+                            <select class="form-control" name="bd" id="status">
+                                <option value="" selected disabled>--- Chọn ngày sinh ---</option>
+                                <option value="ASC">Tăng dần</option>
+                                <option value="DESC">Giảm dần</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <select class="form-control" name="fd" id="status">
+                                <option value="" selected disabled>--- Chọn ngày đầu tiên ---</option>
+                                <option value="ASC">Tăng dần</option>
+                                <option value="DESC">Giảm dần</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
         <div class="col-md-4">
             <div class="row form-group float-right">
@@ -82,7 +86,7 @@
                 <th>Họ tên</th>
                 <th>Phòng ban</th>
                 <th>Email</th>
-                <th>Ngày sinh</th>
+                {{-- <th>Ngày sinh</th> --}}
                 <th>Trạng thái</th>
                 {{-- <th>SĐT</th> --}}
                 <th>Quyền</th>
@@ -96,9 +100,9 @@
                     <td>{{ $key + 1 }}</td>
                     <td>{{ $nhanvien->ma_nhan_vien }}</td>
                     <td>{{ $nhanvien->ho_ten }}</td>
-                    <td></td>
+                    <td>{{ $nhanvien->phongbans->ten }}</td>
                     <td>{{ $nhanvien->email }}</td>
-                    <td>{{ date('d/m/Y', strtotime($nhanvien->ngay_sinh)) }}</td>
+                    {{-- <td>{{ date('d/m/Y', strtotime($nhanvien->ngay_sinh)) }}</td> --}}
                     <td>
                         @if ($nhanvien->trang_thai == 1)
                             <span class="badge badge-success">Đang làm việc</span>

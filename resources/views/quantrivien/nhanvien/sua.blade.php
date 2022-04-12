@@ -58,7 +58,7 @@
                     Đang làm việc
                 </p>
                 <p>
-                    <input type="radio" name="trang_thai" value="0" {{ $nhanvien->trang_thai == 0 ? 'checked' : '' }}>
+                    <input type="radio" name="trang_thai" value="2" {{ $nhanvien->trang_thai == 2 ? 'checked' : '' }}>
                     Đã nghỉ việc
                 </p>
             </div>

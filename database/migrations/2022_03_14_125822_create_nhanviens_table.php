@@ -22,7 +22,7 @@ class CreateNhanviensTable extends Migration
             $table->string('password', 255);
             $table->date('ngay_sinh');
             $table->date('ngay_dau_tien');
-            $table->integer('trang_thai')->default(1)->comment('1: Đang làm việc, 0: Đã nghỉ việc');
+            $table->integer('trang_thai')->default(1)->comment('1: Đang làm việc, 2: Đã nghỉ việc');
             $table->text('anh_dai_dien');
             $table->string('so_dien_thoai', 10)->nullable()->unique();
             $table->string('lan_dau_tien', 10)->default('false');

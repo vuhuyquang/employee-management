@@ -59,15 +59,7 @@
             <a href="../../index3.html" class="brand-link">
                 <img src="{{ url('ad123') }}/dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span style="font-size: 14px;" class="brand-text font-weight-light">
-                    @if (Auth::user()->quyen == 'admin')
-                        Quản trị viên
-                    @elseif (Auth::user()->quyen == 'manager')
-                        Trưởng phòng {{ Auth::user()->phongbans->ten }}
-                    @elseif (Auth::user()->quyen == 'employee')
-                        Nhân viên
-                    @endif
-                </span>
+                <span class="brand-text font-weight-light">AdminLTE</span>
             </a>
 
             <!-- Sidebar -->
@@ -82,7 +74,7 @@
                         @endif
                     </div>
                     <div class="info">
-                        <a href="{{ route('getProfile') }}" class="d-block">{{ Auth::user()->ho_ten }}</a>
+                        <a href="#" class="d-block">{{ Auth::user()->ho_ten }}</a>
                     </div>
                 </div>
 
@@ -158,7 +150,7 @@
                                 <a href="{{ route('list.employee') }}" class="nav-link">
                                     <i class="nav-icon fas fa-table"></i>
                                     <p>
-                                        Nhân viên
+                                        Danh sách nhân viên
                                         {{-- <i class="fas fa-angle-left right"></i> --}}
                                     </p>
                                 </a>

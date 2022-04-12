@@ -29,8 +29,9 @@ class NhanVienController extends Controller
     public function index()
     {
         $phongbans = PhongBan::all();
-        $nhanviens = NhanVien::orderBy('ngay_dau_tien', 'ASC')->search()->paginate(15);
-        $nhanviens->load('phongban');
+        $nhanviens = NhanVien::orderBy('id', 'ASC')->search()->paginate(15);
+        // dd($nhanviens);
+
         return view('quantrivien.nhanvien.danhsach', compact('nhanviens', 'phongbans'));
     }
 
@@ -39,6 +40,18 @@ class NhanVienController extends Controller
         $id = Auth::user()->phong_ban_id;
         $nhanviens = NhanVien::where('phong_ban_id', $id)->paginate(15);
         return view('quanly.danhsachphongban', compact('nhanviens'));
+    }
+
+    public function date(Request $request)
+    {
+        $phongbans = PhongBan::all();
+        if ($request->bd != null) {
+            $nhanviens = NhanVien::orderBy('ngay_sinh', $request->bd)->search()->paginate(15);
+            return view('quantrivien.nhanvien.danhsach', compact('nhanviens', 'phongbans'));
+        } elseif ($request->fd != null) {
+            $nhanviens = NhanVien::orderBy('ngay_dau_tien', $request->fd)->search()->paginate(15);
+            return view('quantrivien.nhanvien.danhsach', compact('nhanviens', 'phongbans'));
+        }
     }
 
     /**
@@ -149,6 +162,7 @@ class NhanVienController extends Controller
             'ngay_dau_tien.required' => 'Trường dữ liệu không được để trống',
             'ngay_dau_tien.date' => 'Dữ liệu nhập vào phải là kiểu ngày tháng',
             'trang_thai.required' => 'Trường dữ liệu không được để trống',
+            'anh_dai_dien.required' => 'Trường dữ liệu không được để trống',
             'anh_dai_dien.mimes' => 'Hình ảnh phải có định đạng jpeg, jpg, png, gif',
             'anh_dai_dien.max' => 'Dữ liệu nhập vào có tối đa 10000 kb',
             'so_dien_thoai.required' => 'Trường dữ liệu không được để trống',
@@ -166,13 +180,13 @@ class NhanVienController extends Controller
         $nhanvien->ngay_dau_tien = $request->ngay_dau_tien;
         $nhanvien->trang_thai = $request->trang_thai;
         $nhanvien->so_dien_thoai = $request->so_dien_thoai;
-        // $nhanvien->quyen = $request->quyen;
         if ($request->has('anh_dai_dien')) {
             $data = $this->resizeimage($request);
             $tenanh = $data['tenanh'];
             $hinhanh_resize = $data['hinhanh_resize'];
             $nhanvien->anh_dai_dien = $tenanh;
         }
+        // $nhanvien->quyen = $request->quyen;
 
         if ($request->quyen == 'manager') {
             $phongban = PhongBan::find($request->phong_ban_id);
@@ -182,7 +196,9 @@ class NhanVienController extends Controller
         }
 
         if ($nhanvien->save()) {
-            $hinhanh_resize->save(public_path('uploads/' . $tenanh));
+            if ($request->has('anh_dai_dien')) {
+                $hinhanh_resize->save(public_path('uploads/' . $tenanh));
+            }
             return redirect()->back()->with('success', 'Cập nhật thành công');
         } else {
             return redirect()->back()->with('error', 'Cập nhật thất bại');
