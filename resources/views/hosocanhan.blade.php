@@ -106,8 +106,7 @@
                                     <label for="anh_dai_dien" class="col-md-4 col-form-label text-md-right">Ảnh đại
                                         diện</label>
                                     <div class="col-md-6">
-                                        <input type="file" class="form-control" name="anh_dai_dien" autocomplete="off"
-                                            required>
+                                        <input type="file" class="form-control" name="anh_dai_dien" autocomplete="off">
                                     </div>
                                 </div>
 

@@ -15,7 +15,7 @@
         </div>
         <div class="col">
             <div class="row form-group float-right">
-                <form action="{{ route('department.import') }}" method="POST" enctype="multipart/form-data">
+                <form action="" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="col">
                         <a href="{{ route('department.export') }}" class="nutxuat">Xuất file</a>

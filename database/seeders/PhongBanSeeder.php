@@ -23,5 +23,14 @@ class PhongBanSeeder extends Seeder
             'created_at' => \Carbon\Carbon::now('Asia/Ho_Chi_Minh'),
             'updated_at' => \Carbon\Carbon::now('Asia/Ho_Chi_Minh')
         ]);
+        DB::table('phongbans')->insert([
+            'id' => '2',
+            'ma_phong_ban' => 'DEPIT',
+            'ten' => 'Công nghệ thông tin',
+            'mo_ta' => null,
+            'truong_phong_id' => '3',
+            'created_at' => \Carbon\Carbon::now('Asia/Ho_Chi_Minh'),
+            'updated_at' => \Carbon\Carbon::now('Asia/Ho_Chi_Minh')
+        ]);
     }
 }

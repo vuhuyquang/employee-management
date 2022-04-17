@@ -45,13 +45,34 @@ class NhanVienController extends Controller
     public function date(Request $request)
     {
         $phongbans = PhongBan::all();
-        if ($request->bd != null) {
-            $nhanviens = NhanVien::orderBy('ngay_sinh', $request->bd)->search()->paginate(15);
-            return view('quantrivien.nhanvien.danhsach', compact('nhanviens', 'phongbans'));
-        } elseif ($request->fd != null) {
-            $nhanviens = NhanVien::orderBy('ngay_dau_tien', $request->fd)->search()->paginate(15);
-            return view('quantrivien.nhanvien.danhsach', compact('nhanviens', 'phongbans'));
+        switch ($request->day) {
+            case '1':
+                $nhanviens = NhanVien::orderBy('ngay_sinh', 'ASC')->search()->paginate(15);
+                return view('quantrivien.nhanvien.danhsach', compact('nhanviens', 'phongbans'));
+                break;
+            case '2':
+                $nhanviens = NhanVien::orderBy('ngay_sinh', 'DESC')->search()->paginate(15);
+                return view('quantrivien.nhanvien.danhsach', compact('nhanviens', 'phongbans'));
+                break;
+            case '3':
+                $nhanviens = NhanVien::orderBy('ngay_dau_tien', 'ASC')->search()->paginate(15);
+                return view('quantrivien.nhanvien.danhsach', compact('nhanviens', 'phongbans'));
+                break; 
+            case '4':
+                $nhanviens = NhanVien::orderBy('ngay_dau_tien', 'DESC')->search()->paginate(15);
+                return view('quantrivien.nhanvien.danhsach', compact('nhanviens', 'phongbans'));
+                break;    
+            default:
+                return redirect()->back()->with('error', 'Giá trị không hợp lệ');
+                break;
         }
+    }
+
+    public function filter(Request $request)
+    {
+        $phongbans = PhongBan::all();
+        $nhanviens = NhanVien::Search($request)->paginate(15);
+        return view('quantrivien.nhanvien.danhsach', compact('nhanviens', 'phongbans'));
     }
 
     /**
@@ -137,7 +158,7 @@ class NhanVienController extends Controller
             'ma_nhan_vien' => 'required|min:3|max:15|unique:nhanviens,ma_nhan_vien,' . $id,
             'ho_ten' => 'required|min:3|max:30',
             'phong_ban_id' => 'required|numeric',
-            'email' => 'required|max:60|email',
+            'email' => 'required|max:60|email|unique:nhanviens,email,'. $id,
             'ngay_sinh' => 'required|date',
             'ngay_dau_tien' => 'required|date',
             'trang_thai' => 'required',
@@ -157,6 +178,7 @@ class NhanVienController extends Controller
             'email.required' => 'Trường dữ liệu không được để trống',
             'email.max' => 'Dữ liệu nhập vào có tối đa 60 ký tự',
             'email.email' => 'Dữ liệu nhập vào phải là dạng email',
+            'email.unique' => 'Dữ liệu nhập vào không được trùng lặp',
             'ngay_sinh.required' => 'Trường dữ liệu không được để trống',
             'ngay_sinh.date' => 'Dữ liệu nhập vào phải là kiểu ngày tháng',
             'ngay_dau_tien.required' => 'Trường dữ liệu không được để trống',
@@ -267,11 +289,16 @@ class NhanVienController extends Controller
         $nhanvien->password = bcrypt($password);
         $nhanvien->lan_dau_tien = 'true';
         if ($nhanvien->save()) {
-            $restPasswordJob = new SendMailResetPassword($nhanvien, $password);
-            dispatch($restPasswordJob);
+            SendMailResetPassword::dispatch($nhanvien, $password);
             return redirect()->back()->with('success', 'Đã gửi mail đặt lại mật khẩu');
         } else {
             return redirect()->back()->with('error', 'Gửi mail thất bại');
         }
+    }
+
+    public function profile($id)
+    {
+        $nhanvien = NhanVien::findOrFail($id);
+        return view('quantrivien.nhanvien.hosocanhan', compact('nhanvien'));
     }
 }

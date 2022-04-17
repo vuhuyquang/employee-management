@@ -60,8 +60,10 @@ class PhongBanController extends Controller
     public function setleader($id)
     {
         $nhanvien = NhanVien::findOrFail($id);
-        $nhanvien->quyen = 'manager';
-        $nhanvien->save();
+        if ($nhanvien->quyen != 'admin') {
+            $nhanvien->quyen = 'manager';
+            $nhanvien->save();
+        }
     }
 
     /**
@@ -116,6 +118,12 @@ class PhongBanController extends Controller
         ]);
 
         $phongban = PhongBan::findOrFail($id);
+        $oldManagerId = $phongban->truong_phong_id;
+        $nhanvien = NhanVien::find($oldManagerId);
+        if ($nhanvien) {
+            $nhanvien->quyen = 'employee';
+            $nhanvien->save();
+        }
         $phongban->ma_phong_ban = $request->ma_phong_ban;
         $phongban->ten = $request->ten;
         $phongban->mo_ta = $request->mo_ta;

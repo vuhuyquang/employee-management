@@ -52,7 +52,9 @@ Route::prefix('quan-tri-vien')->middleware('checkAdmin')->group(function () {
         Route::get('xuat-file-excel', [NhanVienController::class, 'export'])->name('employee.export');
         Route::post('nhap-file-excel', [NhanVienController::class, 'import'])->name('employee.import');
         Route::get('dat-lai-mat-khau/{id}', [NhanVienController::class, 'resetPassword'])->name('resetPassword');
-        Route::post('date', [NhanVienController::class, 'date'])->name('date');
+        Route::get('sap-xep', [NhanVienController::class, 'date'])->name('date');
+        Route::get('bo-loc', [NhanVienController::class, 'filter'])->name('filter');
+        Route::get('ho-so/{id}', [NhanVienController::class, 'profile'])->name('profile');
     });
 });
 

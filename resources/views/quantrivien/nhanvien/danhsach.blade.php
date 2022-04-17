@@ -3,58 +3,65 @@
 @section('main')
     <div class="row">
         <div class="col-md-8">
-            <form action="" class="form-inline">
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <input class="form-control" name="key" placeholder="Nhập họ tên/mã nhân viên"
-                                autocomplete="off">
+            <form action="{{ route('filter') }}" class="form-inline" method="GET">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="htmnv">Họ tên/Mã nhân viên</label>
+                                </div>
+                                <div class="form-group">
+                                    <input id="htmnv" class="form-control" name="key" placeholder="Nhập họ tên/mã nhân viên"
+                                        autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="id">Phòng ban</label>
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control" name="id" id="id">
+                                        <option value="" selected disabled>--- Chọn phòng ban ---</option>
+                                        @foreach ($phongbans as $phongban)
+                                            <option value="{{ $phongban->id }}">{{ $phongban->ten }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="id">Phòng ban</label>
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control" name="status" id="status">
+                                        <option value="" selected disabled>--- Chọn trạng thái ---</option>
+                                        <option value="1">Đang làm việc</option>
+                                        <option value="2">Đã nghỉ việc</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="" class="col mt-4">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <select class="form-control" name="id" id="id">
-                                <option value="" selected disabled>--- Chọn phòng ban ---</option>
-                                @foreach ($phongbans as $phongban)
-                                    <option value="{{ $phongban->id }}">{{ $phongban->ten }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <select class="form-control" name="status" id="status">
-                                <option value="" selected disabled>--- Chọn trạng thái ---</option>
-                                <option value="1">Đang làm việc</option>
-                                <option value="2">Đã nghỉ việc</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-search"></i>
-                        </button>
                     </div>
                 </div>
             </form>
             <div class="row">
-                <form action="{{ route('date') }}" method="POST" class="form-inline">
-                    @csrf
+                <form action="{{ route('date') }}" method="GET" class="form-inline">
                     <div class="col">
                         <div class="form-group">
-                            <select class="form-control" name="bd" id="status">
-                                <option value="" selected disabled>--- Chọn ngày sinh ---</option>
-                                <option value="ASC">Tăng dần</option>
-                                <option value="DESC">Giảm dần</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <select class="form-control" name="fd" id="status">
-                                <option value="" selected disabled>--- Chọn ngày đầu tiên ---</option>
-                                <option value="ASC">Tăng dần</option>
-                                <option value="DESC">Giảm dần</option>
+                            <select class="form-control" name="day" id="status">
+                                <option value="" selected disabled>--- Sắp xếp ---</option>
+                                <option value="1">Ngày sinh ASC</option>
+                                <option value="2">Ngày sinh DESC</option>
+                                <option value="3">Ngày đầu tiên ASC</option>
+                                <option value="4">Ngày đầu tiên DESC</option>
                             </select>
                         </div>
                     </div>
@@ -134,6 +141,9 @@
                     <td>
                         <a href="{{ route('resetPassword', $nhanvien->id) }}" class="btn btn-sm btn-warning">
                             <i style="color: white;" class="fas fa-key"></i>
+                        </a>
+                        <a href="{{ route('profile', $nhanvien->id) }}" class="btn btn-sm btn-info">
+                            <i style="color: white;" class="fas fa-eye"></i>
                         </a>
                         <a href="{{ route('employee.edit', $nhanvien->id) }}" class="btn btn-sm btn-success">
                             <i class="fas fa-edit"></i>

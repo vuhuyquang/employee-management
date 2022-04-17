@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Jobs\SendMailRemindBirthday;
+use App\Jobs\RemindBirthday;
 use App\Models\NhanVien;
 use DB;
 
@@ -14,7 +14,7 @@ class GuiMailController extends Controller
         $ngay = \Carbon\Carbon::now('Asia/Ho_Chi_Minh')->day;
         $thang = \Carbon\Carbon::now('Asia/Ho_Chi_Minh')->month;
         $nhanviens = NhanVien::whereMonth('ngay_sinh', $thang)->whereDay('ngay_sinh', $ngay)->get()->toArray();
-        $quanlys = NhanVien::where('quyen', 'manager')->get()->toArray();
+        $quanlys = NhanVien::where('quyen', 'manager')->orWhere('quyen', 'admin')->get()->toArray();
 
         $arrNhanVien = array();
         foreach ($quanlys as $key2 => $quanly) {
@@ -26,8 +26,10 @@ class GuiMailController extends Controller
             }
             if ($arrNhanVien != null) {
                 $data = ['arrNhanVien' => $arrNhanVien, 'email' => $email];
-                $emailJob = new SendMailRemindBirthday($data);
-                dispatch($emailJob);
+                // RemindBirthday::dispatch($data);
+                if (dispatch(new RemindBirthday($data))) {
+                    return redirect()->back();
+                }
             }
         }
         return redirect()->back();
