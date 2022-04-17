@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Jobs\SMRemindBirthday;
 
 class RemindBirthday extends Command
 {
@@ -40,7 +41,7 @@ class RemindBirthday extends Command
         $ngay = \Carbon\Carbon::now('Asia/Ho_Chi_Minh')->day;
         $thang = \Carbon\Carbon::now('Asia/Ho_Chi_Minh')->month;
         $nhanviens = NhanVien::whereMonth('ngay_sinh', $thang)->whereDay('ngay_sinh', $ngay)->get()->toArray();
-        $quanlys = NhanVien::where('quyen', 'manager')->where('quyen', 'admin')->get()->toArray();
+        $quanlys = NhanVien::where('quyen', 'manager')->orWhere('quyen', 'admin')->get()->toArray();
 
         $arrNhanVien = array();
         foreach ($quanlys as $key2 => $quanly) {
@@ -52,7 +53,10 @@ class RemindBirthday extends Command
             }
             if ($arrNhanVien != null) {
                 $data = ['arrNhanVien' => $arrNhanVien, 'email' => $email];
-                RemindBirthday::dispatch($data);
+                // RemindBirthday::dispatch($data);
+                if (dispatch(new SMRemindBirthday($data))) {
+                    $arrNhanVien = (array) null;
+                }
             }
         }
     }

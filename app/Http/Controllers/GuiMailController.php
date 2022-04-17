@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Jobs\RemindBirthday;
+use App\Jobs\SMRemindBirthday;
 use App\Models\NhanVien;
 use DB;
 
@@ -27,8 +27,8 @@ class GuiMailController extends Controller
             if ($arrNhanVien != null) {
                 $data = ['arrNhanVien' => $arrNhanVien, 'email' => $email];
                 // RemindBirthday::dispatch($data);
-                if (dispatch(new RemindBirthday($data))) {
-                    return redirect()->back();
+                if (dispatch(new SMRemindBirthday($data))) {
+                    $arrNhanVien = (array) null;
                 }
             }
         }
